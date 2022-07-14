@@ -190,10 +190,12 @@ function ripples () {
 	let fontRatioWH = 0.6 ;
 	let ratioLineHFont = lineHeight / fontSize ;
 	//	parseInt( window.getComputedStyle( document.getElementById( 'sRipples' ) ).getPropertyValue( 'font-size' ) ) ;
+
 	let winWidth = window.innerWidth ;
 	let winHeight = window.innerHeight ;
 	let xCharLen = Math.floor( Math.floor( winWidth / 4 * 3 ) / ( fontSize * fontRatioWH ) ) * ( 100 / parseInt(setZoom) ) - 2 ;
 	let yCharLen = Math.floor( Math.floor( winHeight / 4 * 3 ) / ( fontSize * ratioLineHFont ) ) * ( 100 / parseInt(setZoom) ) - 2 ;
+
 	let surface = new Surface ( xCharLen , yCharLen ) ;
 
 	let x_random = Math.floor( Math.random() * surface.xDim ) ;
@@ -204,8 +206,7 @@ function ripples () {
 	document.getElementById ( 'sRipples' ).innerHTML = state ;
 
 	let intervalPeriod = 33 ;
-	// random time value in the range { 0.1 sec , 1.5 secs }
-	// converted to number of stepFrame intervals
+	// random time value in the range { 0.1 sec , 1.5 secs } converted to number of stepFrame intervals
 	let countToNextDrop = randomCount ( intervalPeriod ) ;
 
 	function randomCount ( period ) {
@@ -224,6 +225,7 @@ function ripples () {
 			y_random = Math.floor( Math.random() * surface.yDim ) ;
 			newDrop = new Drop ( new Tetron ( x_random , y_random ) , xCharLen , yCharLen ) ;
 			surface.addDrop ( newDrop ) ;
+			
 			if ( Math.floor( Math.random() * 4 ) === 0 )
 				{ countToNextDrop = Math.ceil( Math.random() * Math.round( 2.5 * 100 / intervalPeriod ) ) ; }
 			else
