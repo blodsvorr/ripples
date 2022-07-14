@@ -163,27 +163,6 @@ class Surface {
 }
 // END CLASS Surface
 
-// XORSHIFT RNG
-function xorshRNG ( seed=0, min=0, max=19 ) {
-	let ms = Date.now() ;
-	let bulb =  (ms >>> 4) + 1 + seed ;
-	let blossom = bulb ;
-
-	for ( var i = 0 ; i < 64 * ( bulb % 4 === 0 ? 1 : 2 ) ; i++ ) {
-		blossom ^= blossom << 7 ;
-		blossom ^= blossom >> 9 ;
-		blossom ^= blossom << 8 ;
-	}
-
-	let spread = max - min + 1 ;
-	let bloom = blossom % spread ;
-
-	bloom = ( bloom < 0 ? ~bloom + 1 : bloom ) ;
-	bloom = ( bloom === -0 ? 0 : bloom ) ;
-
-	return bloom ;
-};
-
 // STRING BUILDER FROM 2D ARRAY
 function buildStateStr ( grid ) {
 	let str = '' ;
@@ -202,31 +181,73 @@ function buildStateStr ( grid ) {
 };
 
 function ripples () {
-	let xLen = 128 ;
-	let yLen = 128 ;
-	let surface = new Surface ( xLen , yLen ) ;
-	let drop = new Drop ( new Tetron (99,99) , xLen , yLen ) ;
-	surface.addDrop ( drop ) ;
-	let state = buildStateStr ( surface.grid ) ;
-	let count = 0 ;
+	let setZoom = '100%' ;
+	document.body.style.zoom = setZoom ;
 
-	function interval () {
-		if ( count % 40 === 0 ) {
-			let x_random = Math.floor( Math.random() * surface.xDim ) ;
-			let y_random = Math.floor( Math.random() * surface.yDim ) ;
-			let newDrop = new Drop ( new Tetron ( x_random , y_random ) , xLen , yLen ) ;
+	let fontSize = 9 ;
+	let lineHeight = 6 ;
+	// ratio of Courier New = 0.6
+	let fontRatioWH = 0.6 ;
+	let ratioLineHFont = lineHeight / fontSize ;
+	//	parseInt( window.getComputedStyle( document.getElementById( 'sRipples' ) ).getPropertyValue( 'font-size' ) ) ;
+	let winWidth = window.innerWidth ;
+	let winHeight = window.innerHeight ;
+	let xCharLen = Math.floor( Math.floor( winWidth / 4 * 3 ) / ( fontSize * fontRatioWH ) ) * ( 100 / parseInt(setZoom) ) - 2 ;
+	let yCharLen = Math.floor( Math.floor( winHeight / 4 * 3 ) / ( fontSize * ratioLineHFont ) ) * ( 100 / parseInt(setZoom) ) - 2 ;
+	let surface = new Surface ( xCharLen , yCharLen ) ;
+
+	let x_random = Math.floor( Math.random() * surface.xDim ) ;
+	let y_random = Math.floor( Math.random() * surface.yDim ) ;
+	let newDrop = new Drop ( new Tetron ( x_random , y_random ) , xCharLen , yCharLen ) ;
+	surface.addDrop ( newDrop ) ;
+	let state = buildStateStr ( surface.grid ) ;
+	document.getElementById ( 'sRipples' ).innerHTML = state ;
+
+	let intervalPeriod = 33 ;
+	// random time value in the range { 0.1 sec , 1.5 secs }
+	// converted to number of stepFrame intervals
+	let countToNextDrop = randomCount ( intervalPeriod ) ;
+
+	function randomCount ( period ) {
+		let randomTriad = Math.floor( Math.random() * 3 ) ;
+		let countMax = 25 ;
+		if ( randomTriad === 0 )
+			{ countMax = 15 ; }
+		if ( randomTriad === 1 )
+			{ countMax = 20 ; }
+		return Math.floor( ( Math.ceil( Math.random() * countMax ) / 10 ) * Math.floor( 1000 / period ) ) ;
+	};
+
+	function stepFrame () {
+		if ( countToNextDrop === 0 ) {
+			x_random = Math.floor( Math.random() * surface.xDim ) ;
+			y_random = Math.floor( Math.random() * surface.yDim ) ;
+			newDrop = new Drop ( new Tetron ( x_random , y_random ) , xCharLen , yCharLen ) ;
 			surface.addDrop ( newDrop ) ;
+			if ( Math.floor( Math.random() * 4 ) === 0 )
+				{ countToNextDrop = Math.ceil( Math.random() * Math.round( 2.5 * 100 / intervalPeriod ) ) ; }
+			else
+				{ countToNextDrop = randomCount ( intervalPeriod ) ; }
 		}
+
 		surface.nextState() ;
 		state = buildStateStr ( surface.grid ) ;
 		document.getElementById ( 'sRipples' ).innerHTML = state ;
-		count++ ;
+
+		countToNextDrop-- ;
 		return ;
 	};
 
-	setInterval ( interval, 25 ) ;
+	let intervalID = setInterval ( stepFrame, intervalPeriod ) ;
 
+	return intervalID ;
+};
+
+function refresh () {
+	clearInterval ( ripplesIntervalID ) ;
+	ripplesIntervalID = ripples () ;
 	return ;
 };
 
-ripples () ;
+window.addEventListener( 'resize' , refresh ) ;
+let ripplesIntervalID = ripples () ;
