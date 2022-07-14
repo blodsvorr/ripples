@@ -202,8 +202,8 @@ function buildStateStr ( grid ) {
 };
 
 function ripples () {
-	let xLen = 250 ;
-	let yLen = 250 ;
+	let xLen = 128 ;
+	let yLen = 128 ;
 	let surface = new Surface ( xLen , yLen ) ;
 	let drop = new Drop ( new Tetron (99,99) , xLen , yLen ) ;
 	surface.addDrop ( drop ) ;
