@@ -2,11 +2,11 @@ body {
 	background-color: #000000 ;
 }
 
-p {
-	font-family: monospace ;
+div {
+	font-family: 'Courier New' ;
+	font-weight: bold ;
 	background-color: transparent ;
 	color: #9c9aff ;
-	font-size: 8pt ;
-	line-height: 8pt ;
-	transform: scale(1,0.8) ;
+	font-size: 9pt ;
+	line-height: 6pt ;
 }
