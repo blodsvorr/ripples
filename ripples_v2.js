@@ -250,7 +250,7 @@ class Ripples {
 
 	surface = new Surface ( this.xCharLen , this.yCharLen )
 	state = buildStateStr ( this.surface.grid )
-	intervalPeriod = 25
+	intervalPeriod = 33
 	// random time value in the range { 0.1 sec , 1.5 secs } converted to number of stepFrame intervals
 	countToNextDrop = this.randomCount ()
 
