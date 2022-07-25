@@ -1,4 +1,4 @@
 # ripples
-2D Ripples from a String of Zeros &amp; Spaces
+2D Ripples
 
 https://blodsvorr.github.io/ripples/
