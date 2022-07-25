@@ -225,7 +225,7 @@ class Surface {
 function buildState ( grid ) {
 	let canvas = document.getElementById ( 'rippleCanvas' ) ;
 	let ctx = canvas.getContext ( '2d' ) ;
-	let shades = [ '#180a44' , 'rgba( 33,144,255,1 )' , 'rgba( 33,144,255,0.67 )' , 'rgba( 33,144,255,0.33 )' ] ;
+	let shades = [ '#180a44' , 'rgba( 66,144,255,1 )' , 'rgba( 66,144,255,0.67 )' , 'rgba( 66,144,255,0.33 )' ] ;
 
 	let dpi = window.devicePixelRatio ;
 	let style_height = +getComputedStyle( canvas ).getPropertyValue( 'height' ).slice(0,-2) ;
