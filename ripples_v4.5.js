@@ -23,7 +23,7 @@ class Drop {
 	constructor ( center , surfaceX , surfaceY ) {
 		this.bounds = new Tetron ( surfaceX , surfaceY ) ;
 		this.center = center ;
-		this.maxPhase = Math.floor ( 0.75 * this.calcMaxPhase ( surfaceX , surfaceY ) ) ;
+		this.maxPhase = Math.floor ( 0.5 * this.calcMaxPhase ( surfaceX , surfaceY ) ) ;
 	}
 
 	get center () { return this._center }
