@@ -96,14 +96,14 @@ class Drop {
 		if ( r2 > 0 )
 			{ ripples.push( circle8(r2) ) ; }
 
-		if ( thisPhase > maxPhase - 30 ) {
-			if ( thisPhase < maxPhase - 22 ) {
+		if ( thisPhase > maxPhase - 24 ) {
+			if ( thisPhase < maxPhase - 16 ) {
 				ripples[1] = [ ...ripples[1] , ...ripples[0] ];
 				ripples[0] = [] ;
-			} else if ( thisPhase < maxPhase - 15 ) {
+			} else if ( thisPhase < maxPhase - 9 ) {
 				ripples[2] = [ ...ripples[2] , ...ripples[0] ] ;
 				ripples[0] = [] ;
-			} else if ( thisPhase < maxPhase - 7 ) {
+			} else if ( thisPhase < maxPhase - 1 ) {
 				ripples[2] = [ ...ripples[2] , ...ripples[1] ] ;
 				ripples[1] = [] ;
 				ripples[0] = [] ;
